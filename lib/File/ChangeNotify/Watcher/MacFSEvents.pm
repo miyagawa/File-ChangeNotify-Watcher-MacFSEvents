@@ -82,13 +82,28 @@ File::ChangeNotify::Watcher::MacFSEvents - Bridges Mac::FSEvents to File::Change
 
 =head1 SYNOPSIS
 
-  use File::ChangeNotify::Watcher::MacFSEvents;
+  # This automatically loads MacFSEvents driver if installed
+  use File::ChangeNotify;
+
+  my $watcher = File::ChangeNotify->instantiate_watcher(
+      directories => [ '/my/path' ], # Only single directly is supported
+      # filter is not supported
+  );
+
+  for my $event ($watcher->new_events) {
+      warn $event->path; # returns the directory, not file
+      warn $event->type; # always 'unknown'
+  }
 
 =head1 DESCRIPTION
 
 File::ChangeNotify::Watcher::MacFSEvents is a File::ChangeNotify
 watcher backend that uses Mac OS X FSEvents API (since 10.5 Leopard)
 thanks to Mac::FSEvents.
+
+Because of fsevents API limitation, this driver only implements
+watching a single directory, and can't filter events based on file
+path (because the API doesn't return the path name).
 
 =head1 AUTHOR
 
