@@ -15,8 +15,8 @@ isa_ok $watcher, 'File::ChangeNotify::Watcher::MacFSEvents';
     print $out time;
 }
 
-diag "sleep 3";
-sleep 3;
+diag "sleep 5";
+sleep 5;
 
 my @events = $watcher->new_events;
 
